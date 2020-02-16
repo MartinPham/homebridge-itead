@@ -29,7 +29,6 @@ Config
 				{
 					"type": "SlampherR2",
 					"id": "Device ID",
-					"ip": "Device IP",
 					"apiKey": "Device API key",
 					"name": "Slampher 1"
 				}

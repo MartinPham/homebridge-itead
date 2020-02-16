@@ -38,7 +38,12 @@ class SlampherR2 extends ITeadAccessory {
 
     
     handleData = (type, data) => {
-        if(type === 'TXT')
+        if(type === 'SRV')
+        {
+            this.platform.logger('SRV ', data)
+            this.hostname = data.target
+            this.port = data.port
+        }else if(type === 'TXT')
         {
             const payload = this._decode(data.data1, data.iv)
 

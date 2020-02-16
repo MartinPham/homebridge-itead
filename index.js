@@ -25,29 +25,52 @@ class ITeadPlatform {
             {
                 for(let answer of response.answers)
                 {
-                    if(answer.type == 'TXT' && answer.name.indexOf('_ewelink') > -1)
+                    if(answer.name.indexOf('_ewelink') > -1)
                     {
-                        const data = answer.data
-
-                        if(typeof data !== 'string')
+                        this.logger("FOUND", answer)
+                        if(answer.type == 'SRV')
                         {
-                            const txt = {}
+                            const srv = answer.data
 
-                            for(let item of data)
+                            const target = srv.target.split(/_|\./)
+
+                            if(target[1])
                             {
-                              const record = item + ''
-                              const seperator = record.indexOf('=')
-                              const name = record.substr(0, seperator)
-                              const value = record.substr(seperator + 1, record.length - seperator)
-                  
-                              txt[name] = value
+                                const id = target[1]
+
+                                this.logger("FOUND SRV DATA", id, srv)
+                                
+                                if(this.platformAccessories[id] && this.platformAccessories[id].handleData)
+                                {
+                                    this.platformAccessories[id].handleData('SRV', srv)
+                                }
                             }
-                  
-                            this.logger("FOUND", txt.id, txt.type, txt.iv, txt.data1)
-                            
-                            if(this.platformAccessories[txt.id] && this.platformAccessories[txt.id].handleData)
+
+                           
+                        } else if(answer.type == 'TXT')
+                        {
+                            const data = answer.data
+
+                            if(typeof data !== 'string')
                             {
-                                this.platformAccessories[txt.id].handleData('TXT', txt)
+                                const txt = {}
+    
+                                for(let item of data)
+                                {
+                                  const record = item + ''
+                                  const seperator = record.indexOf('=')
+                                  const name = record.substr(0, seperator)
+                                  const value = record.substr(seperator + 1, record.length - seperator)
+                      
+                                  txt[name] = value
+                                }
+                      
+                                this.logger("FOUND TXT DATA", txt.id, txt.type, txt.iv, txt.data1)
+                                
+                                if(this.platformAccessories[txt.id] && this.platformAccessories[txt.id].handleData)
+                                {
+                                    this.platformAccessories[txt.id].handleData('TXT', txt)
+                                }
                             }
                         }
                     }

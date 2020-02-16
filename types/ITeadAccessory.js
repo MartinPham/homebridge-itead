@@ -3,6 +3,8 @@ const fetch = require('node-fetch');
 
 class ITeadAccessory {
     name = ''
+    hostname = ''
+    ip = ''
     options = {}
     platform = null
 
@@ -32,7 +34,7 @@ class ITeadAccessory {
         body.data = data
         body.iv = iv
 
-        return await (await fetch(`http://${this.options.ip}:8081/zeroconf/switch`, {
+        return await (await fetch(`http://${this.hostname}:${this.port}/zeroconf/switch`, {
             method: 'post',
             body: JSON.stringify(body),
             headers: { 
