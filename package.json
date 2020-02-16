@@ -5,7 +5,7 @@
     "url": "git+https://github.com/martinpham/homebridge-itead.git"
   },
   "author": "MartinPham",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Homebridge iTEAD",
   "license": "ISC",
   "keywords": [
